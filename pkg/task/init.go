@@ -20,8 +20,8 @@ var (
 func Init() {
 	util.Log().Info("[定时任务] 初始化中")
 
-	if conf.Secret.Type == "public" {
-		client, err := ecloud.NewClient(conf.Secret.Username, conf.Secret.Password)
+	if conf.Config.Secret.Type == "public" {
+		client, err := ecloud.NewClient(conf.Config.Secret.Username, conf.Config.Secret.Password)
 		if err != nil {
 			util.Log().Error("客户端创建失败: %s", err)
 			os.Exit(1)
@@ -52,16 +52,16 @@ func Init() {
 		}
 	} else {
 		client := ecloudsdkcomputer.NewClient(&config.Config{
-			AccessKey: &conf.Secret.AccessKey,
-			SecretKey: &conf.Secret.SecretKey,
-			PoolId:    &conf.Secret.PoolId,
+			AccessKey: &conf.Config.Secret.AccessKey,
+			SecretKey: &conf.Config.Secret.SecretKey,
+			PoolId:    &conf.Config.Secret.PoolId,
 		})
 
 		apiClient = client
 	}
 
 	c := cron.New(cron.WithSeconds())
-	_, err := c.AddFunc(fmt.Sprintf("@every %ds", conf.Cron.Duration), launchMonitor)
+	_, err := c.AddFunc(fmt.Sprintf("@every %ds", conf.Config.Cron.Duration), launchMonitor)
 	if err != nil {
 		util.Log().Error("[定时任务] 任务创建失败")
 		os.Exit(1)
@@ -77,7 +77,7 @@ func Init() {
 }
 
 func launchMonitor() {
-	if conf.Secret.Type == "public" {
+	if conf.Config.Secret.Type == "public" {
 		startMachineMonitorOnPublic()
 	} else {
 		startMachineMonitorOnOpenAPI()

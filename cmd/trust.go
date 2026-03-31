@@ -15,12 +15,12 @@ var trustCmd = &cobra.Command{
 	Long:  `Trust your device when you first use this program.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		conf.Init()
-		if conf.Secret.Type != "public" {
+		if conf.Config.Secret.Type != "public" {
 			fmt.Printf("仅支持公众版账号进行设备信任\n如果您是公众版账号，请将配置文件中的 secret.type 字段修改为 public，并配置好 secret.username 和 secret.password\n")
 			return
 		}
 
-		client, err := ecloud.NewClient(conf.Secret.Username, conf.Secret.Password)
+		client, err := ecloud.NewClient(conf.Config.Secret.Username, conf.Config.Secret.Password)
 		if err != nil {
 			util.Log().Error("客户端创建失败: %s", err)
 			return

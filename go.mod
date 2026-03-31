@@ -8,8 +8,8 @@ require (
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	gitlab.ecloud.com/ecloud/ecloudsdkcomputer v1.0.6
-	gitlab.ecloud.com/ecloud/ecloudsdkcore v1.0.4
+	gitlab.ecloud.com/ecloud/ecloudsdkcomputer v1.0.17
+	gitlab.ecloud.com/ecloud/ecloudsdkcore v1.0.6
 )
 
 require (

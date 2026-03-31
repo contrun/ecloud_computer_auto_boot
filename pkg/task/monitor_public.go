@@ -18,7 +18,7 @@ func startMachineMonitorOnPublic() {
 		return
 	}
 
-	monitorAll := len(conf.Cron.Machines) == 0
+	monitorAll := len(conf.Config.Cron.Machines) == 0
 
 	body := resp.GetBody()
 	machineList := body["machineList"].([]any)
@@ -33,7 +33,7 @@ func startMachineMonitorOnPublic() {
 		}
 
 		util.Log().Debug("id: %s, name: %s, companyCode: %s, status: %s", computer.MachineID, computer.MachineName, computer.CompanyCode, computer.Status)
-		if (monitorAll || util.InArray(conf.Cron.Machines, computer.MachineID)) && computer.Status == ecloud.ResourceStatusShutdown {
+		if (monitorAll || util.InArray(conf.Config.Cron.Machines, computer.MachineID)) && computer.Status == ecloud.ResourceStatusShutdown {
 			go func() {
 				util.Log().Info("[%s] 检测到机器已关机, 请求开机", computer.MachineID)
 				_, err := publicClient.OperateComputer(computer, ecloud.ComputerOperationAvailable)

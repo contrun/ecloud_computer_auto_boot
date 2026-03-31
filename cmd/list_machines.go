@@ -16,8 +16,8 @@ var listMachinesCmd = &cobra.Command{
 	Short: "List all machines in your account",
 	Run: func(cmd *cobra.Command, args []string) {
 		conf.Init()
-		if conf.Secret.Type == "public" {
-			client, err := ecloud.NewClient(conf.Secret.Username, conf.Secret.Password)
+		if conf.Config.Secret.Type == "public" {
+			client, err := ecloud.NewClient(conf.Config.Secret.Username, conf.Config.Secret.Password)
 			if err != nil {
 				fmt.Printf("客户端初始化失败: %s\n", err)
 				return
@@ -78,9 +78,9 @@ func init() {
 func findAllMachine() ([]model.GetResourceListResponseData, error) {
 	var result []model.GetResourceListResponseData
 	client := ecloudsdkcomputer.NewClient(&config.Config{
-		AccessKey: &conf.Secret.AccessKey,
-		SecretKey: &conf.Secret.SecretKey,
-		PoolId:    &conf.Secret.PoolId,
+		AccessKey: &conf.Config.Secret.AccessKey,
+		SecretKey: &conf.Config.Secret.SecretKey,
+		PoolId:    &conf.Config.Secret.PoolId,
 	})
 
 	maxPage := 1

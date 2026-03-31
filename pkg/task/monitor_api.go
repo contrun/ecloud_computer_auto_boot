@@ -31,7 +31,7 @@ func startMachineMonitorOnOpenAPI() {
 		respData := *response.Body.Data
 		for _, instance := range respData {
 			machineId := *instance.MachineId
-			if len(conf.Cron.Machines) == 0 || util.InArray(conf.Cron.Machines, machineId) {
+			if len(conf.Config.Cron.Machines) == 0 || util.InArray(conf.Config.Cron.Machines, machineId) {
 				if *instance.MachineStatus == "shutdown" {
 					go func() {
 						util.Log().Info("[实例状态监控] 检测到实例 %s 已关机, 请求启动", machineId)
