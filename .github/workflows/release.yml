@@ -1,0 +1,61 @@
+on:
+  push:
+    branches:
+      - release
+      - main
+      - master
+    tags:
+      - "v*"
+  release:
+    types: [created]
+
+env:
+    CGO_ENABLED: 0
+
+permissions:
+    contents: write
+    packages: write
+
+jobs:
+  release:
+    name: Release Go Binary
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+    steps:
+    - uses: actions/checkout@v6
+
+    - uses: actions/setup-go@v6
+      with:
+        go-version-file: 'go.mod'
+
+    - name: Build
+      run: |
+        go env -w GOPROXY=https://ecloud.10086.cn/api/query/developer/nexus/repository/go-sdk/
+        go env -w GONOSUMDB=gitlab.ecloud.com
+        go get -u gitlab.ecloud.com/ecloud/ecloudsdkcomputer
+        go env -w GOPROXY=
+        export GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }}
+        BINARY_NAME="ecloud_computer_auto_boot-${{ matrix.goos }}-${{ matrix.goarch }}"
+        if [[ ${{ matrix.goos }} == "linux" ]] && [[ ${{ matrix.goarch }} == "amd64" ]] ; then
+          go build -ldflags="${ldflags}" -v -o "$BINARY_NAME.fat" .
+          objcopy --only-keep-debug "$BINARY_NAME.fat" "$BINARY_NAME.debug"
+          objcopy --strip-debug --add-gnu-debuglink="$BINARY_NAME.debug" "$BINARY_NAME.fat" "$BINARY_NAME"
+        else
+          ldflags="${ldflags}${ldflags:+ }-s -w"
+          go build -ldflags="${ldflags}" -v -o "$BINARY_NAME" .
+        fi
+
+    - name: Release
+      uses: softprops/action-gh-release@v2.4.2
+      with:
+        # If we are releasing an updates then set release_tag to be null,
+        # otherwise if the branch name is "main" then set the release_tag to be "latest",
+        # otherwise set the release_tag to be "dev".
+        tag_name: ${{ (github.event_tag == 'release' && null) || (github.ref_type == 'tag' && github.ref_name) || (github.ref == 'refs/heads/main' && 'latest' || 'dev') }}
+        files: |
+          ecloud_computer_auto_boot*
+        make_latest: ${{ github.ref == 'refs/heads/main' }}
