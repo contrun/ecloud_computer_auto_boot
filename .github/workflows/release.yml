@@ -34,19 +34,15 @@ jobs:
 
     - name: Build
       run: |
-        go env -w GOPROXY=https://ecloud.10086.cn/api/query/developer/nexus/repository/go-sdk/
-        go env -w GONOSUMDB=gitlab.ecloud.com
-        go get -u gitlab.ecloud.com/ecloud/ecloudsdkcomputer
-        go env -w GOPROXY=
         export GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }}
         BINARY_NAME="ecloud_computer_auto_boot-${{ matrix.goos }}-${{ matrix.goarch }}"
         if [[ ${{ matrix.goos }} == "linux" ]] && [[ ${{ matrix.goarch }} == "amd64" ]] ; then
-          go build -ldflags="${ldflags}" -v -o "$BINARY_NAME.fat" .
+          go build -mod=vendor -ldflags="${ldflags}" -v -o "$BINARY_NAME.fat" .
           objcopy --only-keep-debug "$BINARY_NAME.fat" "$BINARY_NAME.debug"
           objcopy --strip-debug --add-gnu-debuglink="$BINARY_NAME.debug" "$BINARY_NAME.fat" "$BINARY_NAME"
         else
           ldflags="${ldflags}${ldflags:+ }-s -w"
-          go build -ldflags="${ldflags}" -v -o "$BINARY_NAME" .
+          go build -mod=vendor -ldflags="${ldflags}" -v -o "$BINARY_NAME" .
         fi
 
     - name: Release

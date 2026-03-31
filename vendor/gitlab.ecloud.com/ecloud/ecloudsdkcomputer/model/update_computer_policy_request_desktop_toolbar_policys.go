@@ -1,0 +1,99 @@
+// @Title  Golang SDK Client
+// @Description  This code is auto generated
+// @Author  Ecloud SDK
+
+package model
+
+import (
+    "gitlab.ecloud.com/ecloud/ecloudsdkcore/utils"
+)
+type UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum string
+
+// List of Category
+const (
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumCloseMachine UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "CLOSE_MACHINE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBanTerminalType UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BAN_TERMINAL_TYPE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumShutSetting UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "SHUT_SETTING"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumRestartSetting UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "RESTART_SETTING"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumReconnectInterval UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "RECONNECT_INTERVAL"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumReconnectTotal UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "RECONNECT_TOTAL"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumCloseDeviceSource UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "CLOSE_DEVICE_SOURCE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumDisconnect UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "DISCONNECT"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumStartMode UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "START_MODE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumUpdateMachineName UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "UPDATE_MACHINE_NAME"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumAllowReload UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "ALLOW_RELOAD"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenNetCheck UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_NET_CHECK"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenAttention UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_ATTENTION"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenSet UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_SET"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenMinimize UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_MINIMIZE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenWindowed UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_WINDOWED"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenQuit UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_QUIT"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenQuitBreak UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_QUIT_BREAK"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenQuitRestart UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_QUIT_RESTART"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBigscreenQuitShut UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BIGSCREEN_QUIT_SHUT"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileManage UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_MANAGE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileHelp UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_HELP"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileQuit UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_QUIT"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileQuitBreak UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_QUIT_BREAK"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileQuitRestart UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_QUIT_RESTART"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumMobileQuitShut UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "MOBILE_QUIT_SHUT"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumConnectType UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "CONNECT_TYPE"
+    UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnumBreakShut UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum = "BREAK_SHUT"
+)
+
+type UpdateComputerPolicyRequestDesktopToolbarPolicys struct {
+
+    // 桌面工具栏枚举值
+	Category *UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum `json:"category,omitempty"`
+    // 桌面工具栏value
+	Value *string `json:"value,omitempty"`
+}
+
+func (s UpdateComputerPolicyRequestDesktopToolbarPolicys) String() string {
+	return utils.Beautify(s)
+}
+
+func (s UpdateComputerPolicyRequestDesktopToolbarPolicys) GoString() string {
+	return s.String()
+}
+
+func (s UpdateComputerPolicyRequestDesktopToolbarPolicys) ToJsonString() string {
+	return utils.ToJsonString(s)
+}
+
+func (s *UpdateComputerPolicyRequestDesktopToolbarPolicys) SetCategory(v UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum) *UpdateComputerPolicyRequestDesktopToolbarPolicys {
+	s.Category = &v
+	return s
+}
+
+func (s *UpdateComputerPolicyRequestDesktopToolbarPolicys) SetValue(v string) *UpdateComputerPolicyRequestDesktopToolbarPolicys {
+	s.Value = &v
+	return s
+}
+
+
+type UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder struct {
+	s *UpdateComputerPolicyRequestDesktopToolbarPolicys
+}
+
+func NewUpdateComputerPolicyRequestDesktopToolbarPolicysBuilder() *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder {
+	s := &UpdateComputerPolicyRequestDesktopToolbarPolicys{}
+	b := &UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder{s: s}
+	return b
+}
+
+func (b *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder) Category(v UpdateComputerPolicyRequestDesktopToolbarPolicysCategoryEnum) *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder {
+	b.s.Category = &v
+	return b
+}
+
+func (b *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder) Value(v string) *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder {
+	b.s.Value = &v
+	return b
+}
+
+func (b *UpdateComputerPolicyRequestDesktopToolbarPolicysBuilder) Build() *UpdateComputerPolicyRequestDesktopToolbarPolicys {
+	return b.s
+}
+
+
