@@ -32,6 +32,7 @@ type secret struct {
 }
 
 type cron struct {
+	Enabled  bool     `yaml:"enabled" mapstructure:"enabled"`
 	Duration int      `yaml:"duration" mapstructure:"duration"`
 	Machines []string `yaml:"machines" mapstructure:"machines"`
 }

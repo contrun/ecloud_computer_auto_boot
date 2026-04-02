@@ -19,13 +19,14 @@ var runCmd = &cobra.Command{
 If you run it on this device for the first time, you must first run the trust command.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		bootstrap.Init()
-
-		// 收到信号后关闭服务器
-		sigChan := make(chan os.Signal, 1)
-		signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
-		sig := <-sigChan
-		util.Log().Info("收到信号 %s, 开始关闭进程", sig)
-		task.Destroy()
+		if task.HasBackgroundTasks() {
+			// 收到信号后关闭服务器
+			sigChan := make(chan os.Signal, 1)
+			signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
+			sig := <-sigChan
+			util.Log().Info("收到信号 %s, 开始关闭进程", sig)
+			task.Destroy()
+		}
 	},
 }
 

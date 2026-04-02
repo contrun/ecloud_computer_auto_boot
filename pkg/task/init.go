@@ -60,23 +60,29 @@ func Init() {
 		apiClient = client
 	}
 
-	c := cron.New(cron.WithSeconds())
-	_, err := c.AddFunc(fmt.Sprintf("@every %ds", conf.Config.Cron.Duration), launchMonitor)
-	if err != nil {
-		util.Log().Error("[定时任务] 任务创建失败")
-		os.Exit(1)
+	if conf.Config.Cron.Enabled {
+		c := cron.New(cron.WithSeconds())
+		_, err := c.AddFunc(fmt.Sprintf("@every %ds", conf.Config.Cron.Duration), launchMonitor)
+		if err != nil {
+			util.Log().Error("[定时任务] 任务创建失败")
+			os.Exit(1)
+		}
+
+		c.Start()
+
+		cronInstance = c
+		util.Log().Info("[定时任务] 初始化完毕")
 	}
-
-	c.Start()
-
-	cronInstance = c
-	util.Log().Info("[定时任务] 初始化完毕")
-
 	// 立即执行一次
 	launchMonitor()
 }
 
+func HasBackgroundTasks() bool {
+	return cronInstance != nil
+}
+
 func launchMonitor() {
+	util.Log().Debug("[定时任务] 开始监控")
 	if conf.Config.Secret.Type == "public" {
 		startMachineMonitorOnPublic()
 	} else {
@@ -85,5 +91,7 @@ func launchMonitor() {
 }
 
 func Destroy() {
-	cronInstance.Stop()
+	if cronInstance != nil {
+		cronInstance.Stop()
+	}
 }
