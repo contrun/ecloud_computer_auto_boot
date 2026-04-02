@@ -3,12 +3,16 @@ package task
 import (
 	"ecloud_computer_auto_boot/pkg/conf"
 	"ecloud_computer_auto_boot/pkg/util"
+	"sync"
+
 	"gitlab.ecloud.com/ecloud/ecloudsdkcomputer/model"
 )
 
 func startMachineMonitorOnOpenAPI() {
+	var wg sync.WaitGroup
 	page := 1
 	failedCnt := 0
+	defer wg.Wait()
 
 	for {
 		if failedCnt >= 3 {
@@ -33,7 +37,9 @@ func startMachineMonitorOnOpenAPI() {
 			machineId := *instance.MachineId
 			if len(conf.Config.Cron.Machines) == 0 || util.InArray(conf.Config.Cron.Machines, machineId) {
 				if *instance.MachineStatus == "shutdown" {
+					wg.Add(1)
 					go func() {
+						defer wg.Done()
 						util.Log().Info("[实例状态监控] 检测到实例 %s 已关机, 请求启动", machineId)
 						resp, err := startupMachineOnOpenAPI(machineId)
 						if err != nil {

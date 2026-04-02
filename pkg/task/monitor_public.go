@@ -4,9 +4,12 @@ import (
 	"ecloud_computer_auto_boot/pkg/conf"
 	"ecloud_computer_auto_boot/pkg/ecloud"
 	"ecloud_computer_auto_boot/pkg/util"
+	"sync"
 )
 
 func startMachineMonitorOnPublic() {
+	var wg sync.WaitGroup
+	defer wg.Wait()
 	resp, err := publicClient.GetDeviceInfo()
 	if err != nil {
 		util.Log().Error("获取设备信息失败: %s", err)
@@ -34,7 +37,9 @@ func startMachineMonitorOnPublic() {
 
 		util.Log().Debug("id: %s, name: %s, companyCode: %s, status: %s", computer.MachineID, computer.MachineName, computer.CompanyCode, computer.Status)
 		if (monitorAll || util.InArray(conf.Config.Cron.Machines, computer.MachineID)) && computer.Status == ecloud.ResourceStatusShutdown {
+			wg.Add(1)
 			go func() {
+				defer wg.Done()
 				util.Log().Info("[%s] 检测到机器已关机, 请求开机", computer.MachineID)
 				_, err := publicClient.OperateComputer(computer, ecloud.ComputerOperationAvailable)
 				if err != nil {
@@ -45,4 +50,5 @@ func startMachineMonitorOnPublic() {
 			}()
 		}
 	}
+	wg.Wait()
 }
