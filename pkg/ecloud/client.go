@@ -46,6 +46,9 @@ type Client struct {
 }
 
 func NewClient(username string, password string) (*Client, error) {
+	transport := &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+	}
 	c := &Client{
 		Username:  username,
 		Password:  password,
@@ -53,7 +56,8 @@ func NewClient(username string, password string) (*Client, error) {
 		userAgent: getUserAgent(),
 		device:    getDeviceInfo(),
 		client: &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout:   30 * time.Second,
+			Transport: transport,
 		},
 		publicKey:           getPublicKey(),
 		privateKey:          getPrivateKey(),
