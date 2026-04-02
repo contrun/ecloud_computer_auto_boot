@@ -15,7 +15,15 @@ import (
 )
 
 func getTimestamp() string {
-	return time.Now().Format("2006-1-2T15:04:05Z")
+	// The server expects a time in the timezone UTC+8.
+	// Otherwise we will have error
+	// {
+	//   "errorMessage": "Invalid parameter Timestamp ",
+	//   "errorCode": "INVALID_PARAMETER",
+	//   "state": "ERROR",
+	//   "requestId": "reqId-xxx"
+	// }
+	return time.Now().In(time.FixedZone("Asia/Shanghai", 8*60*60)).Format("2006-1-2T15:04:05Z")
 }
 
 func getUUID() string {
